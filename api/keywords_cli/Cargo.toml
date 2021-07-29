@@ -1,0 +1,8 @@
+[package]
+name = "keywords_cli"
+version = "0.1.0"
+edition = "2018"
+
+[dependencies]
+data = { package = "keywords_data", path = "../../libs/keywords_data" }
+model = { package = "keywords_model", path = "../../libs/keywords_model" }

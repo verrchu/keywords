@@ -1,11 +1,5 @@
-[package]
-name = "keywords"
-version = "0.1.0"
-edition = "2018"
+[workspace]
 
-[dependencies]
-eyre = "~0.6"
-indexmap = { version = "~1.7", features = ["serde-1"] }
-once_cell = "~1.8"
-ron = "~0.6"
-serde = "~1.0"
+members = [
+    "api/keywords_cli",
+]

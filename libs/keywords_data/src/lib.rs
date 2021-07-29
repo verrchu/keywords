@@ -3,7 +3,7 @@ use std::io::BufReader;
 use std::path::Path;
 use std::sync::Arc;
 
-use crate::model::Keywords;
+use model::Keywords;
 
 use indexmap::{indexmap, IndexMap};
 use once_cell::sync::Lazy;
