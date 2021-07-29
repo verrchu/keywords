@@ -6,3 +6,4 @@ edition = "2018"
 [dependencies]
 indexmap = { version = "~1.7", features = ["serde-1"] }
 serde = "~1.0"
+typed-builder = "~0.9"

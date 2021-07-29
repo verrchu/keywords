@@ -1,4 +1,6 @@
 pub mod api;
+mod error;
+pub use error::Error;
 
 use std::fs::File;
 use std::io::BufReader;

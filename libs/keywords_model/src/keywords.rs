@@ -5,3 +5,9 @@ use serde::Deserialize;
 pub struct Keywords {
     versions: IndexMap<String, IndexSet<String>>,
 }
+
+impl Keywords {
+    pub fn versions(&self) -> impl IntoIterator<Item = (&String, &IndexSet<String>)> {
+        &self.versions
+    }
+}

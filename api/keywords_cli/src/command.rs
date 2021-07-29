@@ -2,34 +2,45 @@ use std::process;
 
 use clap::{App, AppSettings, Arg, ArgMatches};
 
-pub fn run() -> () {
+pub fn run() {
     let matches = App::new("keywords")
         .setting(AppSettings::ArgRequiredElseHelp)
         .setting(AppSettings::GlobalVersion)
         .subcommand(
-            App::new("list")
-                .setting(AppSettings::ArgRequiredElseHelp)
-                .subcommand(App::new("languages"))
-                .subcommand(App::new("versions").arg(Arg::new("language").required(true))),
+            App::new("search")
+                .arg(
+                    Arg::new("languages")
+                        .short('l')
+                        .long("languages")
+                        .required(false)
+                        .takes_value(true),
+                )
+                .arg(Arg::new("word").required(true).takes_value(true)),
         )
         .get_matches();
+
+    dbg!(&matches);
 
     process(matches);
 }
 
 fn process(matches: ArgMatches) {
     match matches.subcommand() {
-        Some(("list", matches)) => match matches.subcommand() {
-            Some(("languages", _)) => {
-                let languages = data::api::languages::list();
-                todo!();
-            }
-            Some(("versions", matches)) => {
-                let language = get_arg(matches, "language");
-                todo!();
-            }
-            other => handle_invalid_subcommand(other),
-        },
+        Some(("search", matches)) => {
+            log::debug!("executing search subcommand");
+
+            let languages: Option<Vec<String>> = matches
+                .value_of("languages")
+                .map(|languages| languages.split(',').map(ToOwned::to_owned).collect());
+
+            log::debug!("languages supplied: {:?}", languages);
+
+            let word = get_arg(matches, "word");
+
+            let occurences = data::api::keyword::search(&word, languages);
+
+            println!("{:?}", occurences);
+        }
         other => handle_invalid_subcommand(other),
     }
 }
