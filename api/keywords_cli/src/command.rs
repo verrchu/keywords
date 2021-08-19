@@ -37,7 +37,7 @@ fn process(matches: ArgMatches) {
 
             let word = matches.value_of("word").unwrap();
 
-            let occurences = data::api::keyword::search(&word, languages);
+            let occurences = data::api::keyword::search(word.into(), languages);
 
             dbg!(occurences);
         }

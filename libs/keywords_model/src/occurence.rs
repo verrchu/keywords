@@ -1,11 +1,13 @@
 use typed_builder::TypedBuilder;
 
+use crate::{language, Keyword, Language};
+
 #[derive(Debug, Clone, TypedBuilder)]
 pub struct Occurence {
     #[builder(setter(into))]
-    word: String,
+    keyword: Keyword,
     #[builder(setter(into))]
-    language: String,
+    language: Language,
     #[builder(default, setter(strip_option, into))]
-    since: Option<String>,
+    since: Option<language::Version>,
 }

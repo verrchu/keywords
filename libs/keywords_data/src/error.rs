@@ -1,7 +1,9 @@
+use model::Language;
+
 #[derive(Clone, Debug)]
 pub enum Error {
     UnsupportedLanguages {
-        unsupported: Vec<String>,
-        supported: Vec<String>,
+        unsupported: Vec<Language>,
+        supported: Vec<Language>,
     },
 }

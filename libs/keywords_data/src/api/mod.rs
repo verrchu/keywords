@@ -1,4 +1,4 @@
 pub mod keyword;
-pub mod languages;
+pub mod language;
 
 use super::Error;

@@ -1,24 +1,16 @@
-use std::borrow::Borrow;
-
 use serde::Deserialize;
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq, Deserialize)]
-pub enum Keyword {
-    Regular(String),
-}
+pub struct Keyword(String);
 
 impl AsRef<str> for Keyword {
     fn as_ref(&self) -> &str {
-        match self {
-            Self::Regular(keyword) => keyword,
-        }
+        &self.0
     }
 }
 
-impl Borrow<str> for Keyword {
-    fn borrow(&self) -> &str {
-        match self {
-            Self::Regular(keyword) => keyword,
-        }
+impl<S: ToString> From<S> for Keyword {
+    fn from(input: S) -> Self {
+        Self(input.to_string())
     }
 }

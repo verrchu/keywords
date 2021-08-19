@@ -3,31 +3,35 @@ use std::sync::Arc;
 use super::Error;
 use crate::DATA;
 
-use model::{Keywords, Occurence};
+use model::{Keyword, Keywords, Language, Occurence};
 
-pub fn search(word: &str, languages: Option<Vec<String>>) -> Result<Vec<Occurence>, Error> {
+pub fn search<I, L>(keyword: Keyword, languages: Option<I>) -> Result<Vec<Occurence>, Error>
+where
+    L: Into<Language>,
+    I: IntoIterator<Item = L> + Clone,
+{
     languages
-        .as_ref()
-        .map(super::languages::check_supported)
+        .clone()
+        .map(super::language::check_supported)
         .transpose()?;
 
     let data = Arc::clone(&*DATA);
 
-    let languages =
-        languages.unwrap_or_else(|| data.keys().map(ToString::to_string).collect::<Vec<_>>());
+    let languages = languages.map(|languages| languages.into_iter().map(Into::into).collect());
+    let languages = languages.unwrap_or_else(|| super::language::list());
 
     let mut occurences = vec![];
     for language in languages.iter() {
-        if let Some(keywords) = data.get(language.as_str()) {
+        if let Some(keywords) = data.get(language.as_ref()) {
             match keywords {
                 Keywords::Versioned(keywords) => {
                     for (version, keywords) in keywords.iter() {
-                        if keywords.contains(word) {
+                        if keywords.contains(&keyword) {
                             occurences.push(
                                 Occurence::builder()
-                                    .language(language)
-                                    .since(version.as_ref())
-                                    .word(word)
+                                    .language(language.to_owned())
+                                    .since(version.to_owned())
+                                    .keyword(keyword.clone())
                                     .build(),
                             );
                         }

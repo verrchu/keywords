@@ -1,9 +1,11 @@
 use indexmap::{IndexMap, IndexSet};
 use serde::Deserialize;
 
-use super::{Keyword, Version};
+use crate::ListedKeyword;
+
+use super::language;
 
 #[derive(Debug, Clone, Deserialize)]
 pub enum Keywords {
-    Versioned(IndexMap<Version, IndexSet<Keyword>>),
+    Versioned(IndexMap<language::Version, IndexSet<ListedKeyword>>),
 }
