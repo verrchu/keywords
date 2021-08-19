@@ -1,13 +1,9 @@
 use indexmap::{IndexMap, IndexSet};
 use serde::Deserialize;
 
-#[derive(Debug, Clone, Deserialize)]
-pub struct Keywords {
-    versions: IndexMap<String, IndexSet<String>>,
-}
+use super::{Keyword, Version};
 
-impl Keywords {
-    pub fn versions(&self) -> impl IntoIterator<Item = (&String, &IndexSet<String>)> {
-        &self.versions
-    }
+#[derive(Debug, Clone, Deserialize)]
+pub enum Keywords {
+    Versioned(IndexMap<Version, IndexSet<Keyword>>),
 }

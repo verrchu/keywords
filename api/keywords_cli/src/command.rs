@@ -35,31 +35,12 @@ fn process(matches: ArgMatches) {
 
             log::debug!("languages supplied: {:?}", languages);
 
-            let word = get_arg(matches, "word");
+            let word = matches.value_of("word").unwrap();
 
             let occurences = data::api::keyword::search(&word, languages);
 
-            println!("{:?}", occurences);
+            dbg!(occurences);
         }
-        other => handle_invalid_subcommand(other),
+        _ => unreachable!(),
     }
-}
-
-fn get_arg(matches: &ArgMatches, name: &str) -> String {
-    if let Some(value) = matches.value_of(name) {
-        value.to_owned()
-    } else {
-        log::error!("expected argument {}", name);
-
-        process::exit(1);
-    }
-}
-
-fn handle_invalid_subcommand(subcommand: Option<(&str, &ArgMatches)>) {
-    match subcommand {
-        Some((command, _)) => log::error!("unknown subcommand: {}", command),
-        None => log::error!("subcommand expected"),
-    }
-
-    process::exit(1);
 }

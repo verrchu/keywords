@@ -3,7 +3,7 @@ use std::sync::Arc;
 use super::Error;
 use crate::DATA;
 
-use model::Occurence;
+use model::{Keywords, Occurence};
 
 pub fn search(word: &str, languages: Option<Vec<String>>) -> Result<Vec<Occurence>, Error> {
     languages
@@ -19,15 +19,19 @@ pub fn search(word: &str, languages: Option<Vec<String>>) -> Result<Vec<Occurenc
     let mut occurences = vec![];
     for language in languages.iter() {
         if let Some(keywords) = data.get(language.as_str()) {
-            for (version, keywords) in keywords.versions() {
-                if keywords.contains(word) {
-                    occurences.push(
-                        Occurence::builder()
-                            .language(language)
-                            .since(version)
-                            .word(word)
-                            .build(),
-                    );
+            match keywords {
+                Keywords::Versioned(keywords) => {
+                    for (version, keywords) in keywords.iter() {
+                        if keywords.contains(word) {
+                            occurences.push(
+                                Occurence::builder()
+                                    .language(language)
+                                    .since(version.as_ref())
+                                    .word(word)
+                                    .build(),
+                            );
+                        }
+                    }
                 }
             }
         }
