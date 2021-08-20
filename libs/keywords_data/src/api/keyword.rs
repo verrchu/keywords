@@ -40,6 +40,16 @@ where
                         }
                     }
                 }
+                Keywords::Flat(keywords) => {
+                    if keywords.contains(&keyword) {
+                        occurences.push(
+                            keyword::Occurence::builder()
+                                .language(language.to_owned())
+                                .keyword(keyword.clone())
+                                .build(),
+                        );
+                    }
+                }
             }
         }
     }

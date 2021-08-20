@@ -30,4 +30,5 @@ impl<S: ToString> From<S> for Keyword {
 #[derive(Debug, Clone, Deserialize)]
 pub enum Keywords {
     Versioned(IndexMap<language::Version, IndexSet<ListedKeyword>>),
+    Flat(IndexSet<ListedKeyword>),
 }

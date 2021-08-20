@@ -15,7 +15,8 @@ use ron::de::from_reader;
 
 static DATA: Lazy<Arc<IndexMap<&str, Keywords>>> = Lazy::new(|| {
     let data = indexmap! {
-        "rust" => read_keywords_file("rust").unwrap()
+        "erlang" => read_keywords_file("erlang").unwrap(),
+        "rust" => read_keywords_file("rust").unwrap(),
     };
 
     Arc::new(data)
