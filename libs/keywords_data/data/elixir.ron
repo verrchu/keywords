@@ -1,0 +1,17 @@
+Flat([
+    Regular(Keyword("true")),
+    Regular(Keyword("false")),
+    Regular(Keyword("nil")),
+    Regular(Keyword("when")),
+    Regular(Keyword("and")),
+    Regular(Keyword("or")),
+    Regular(Keyword("not")),
+    Regular(Keyword("in")),
+    Regular(Keyword("fn")),
+    Regular(Keyword("do")),
+    Regular(Keyword("end")),
+    Regular(Keyword("catch")),
+    Regular(Keyword("rescue")),
+    Regular(Keyword("after")),
+    Regular(Keyword("else")),
+])
