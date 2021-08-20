@@ -19,15 +19,15 @@ pub enum Keywords {
 
 #[derive(Debug, Clone, Hash, PartialEq, Eq, Deserialize)]
 pub enum Keyword {
-    Regular(String),
-    Annotated(String, Annotation),
+    Introduced(String, Annotation),
+    Removed(String),
 }
 
 impl AsRef<str> for Keyword {
     fn as_ref(&self) -> &str {
         match self {
-            Self::Regular(keyword) => keyword,
-            Self::Annotated(keyword, _annotation) => keyword,
+            Self::Introduced(keyword, _annotation) => keyword,
+            Self::Removed(keyword) => keyword,
         }
     }
 }
@@ -35,8 +35,8 @@ impl AsRef<str> for Keyword {
 impl Display for Keyword {
     fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
         match self {
-            Self::Regular(keyword) => write!(f, "{}", keyword),
-            Self::Annotated(keyword, annotation) => write!(f, "{} ({})", keyword, annotation),
+            Self::Introduced(keyword, annotation) => write!(f, "{} ({})", keyword, annotation),
+            Self::Removed(keyword) => write!(f, "{}", keyword),
         }
     }
 }
@@ -49,12 +49,12 @@ mod tests {
     fn test_display() {
         assert_eq!(
             "test".to_string(),
-            Keyword::Regular("test".into()).to_string()
+            Keyword::Introduced("test".into(), Annotation::Regular).to_string()
         );
 
         assert_eq!(
             "test (unused)".to_string(),
-            Keyword::Annotated("test".into(), Annotation::Unused).to_string()
+            Keyword::Removed("test".into()).to_string()
         );
     }
 }

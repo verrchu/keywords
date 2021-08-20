@@ -1,0 +1,52 @@
+Versioned({
+  Version("1.4"): [
+    Introduced("and", Regular),
+    Introduced("break", Regular),
+    Introduced("class", Regular),
+    Introduced("continue", Regular),
+    Introduced("def", Regular),
+    Introduced("del", Regular),
+    Introduced("elif", Regular),
+    Introduced("else", Regular),
+    Introduced("except", Regular),
+    Introduced("finally", Regular),
+    Introduced("for", Regular),
+    Introduced("from", Regular),
+    Introduced("global", Regular),
+    Introduced("if", Regular),
+    Introduced("import", Regular),
+    Introduced("in", Regular),
+    Introduced("is", Regular),
+    Introduced("lambda", Regular),
+    Introduced("not", Regular),
+    Introduced("or", Regular),
+    Introduced("pass", Regular),
+    Introduced("print", Regular),
+    Introduced("raise", Regular),
+    Introduced("return", Regular),
+    Introduced("try", Regular),
+    Introduced("while", Regular),
+  ],
+  Version("1.5"): [
+    Introduced("exec", Regular),
+  ],
+  Version("2.2"): [
+    Introduced("yield", Regular),
+  ],
+  Version("2.5"): [
+    Introduced("as", Regular),
+    Introduced("with", Regular),
+  ],
+  Version("3.0"): [
+    Introduced("False", Regular),
+    Introduced("None", Regular),
+    Introduced("True", Regular),
+    Introduced("nonlocal", Regular),
+    Removed("exec"),
+    Removed("print"),
+  ],
+  Version("3.7"): [
+    Introduced("async", Regular),
+    Introduced("await", Regular),
+  ]
+})

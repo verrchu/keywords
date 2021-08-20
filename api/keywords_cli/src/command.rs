@@ -17,8 +17,6 @@ pub fn run() {
         )
         .get_matches();
 
-    dbg!(&matches);
-
     process(matches);
 }
 
@@ -35,7 +33,14 @@ fn process(matches: ArgMatches) {
 
             let keyword = matches.value_of("keyword").unwrap();
 
-            let occurences = data::api::keyword::search(keyword, languages);
+            match data::api::keyword::search(keyword, languages) {
+                Ok(occurences) => {
+                    for occurence in occurences.iter() {
+                        println!("{}", occurence);
+                    }
+                }
+                Err(err) => println!("ERROR: {}", err),
+            }
         }
         _ => unreachable!(),
     }

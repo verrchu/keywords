@@ -17,6 +17,7 @@ static DATA: Lazy<Arc<IndexMap<&str, Keywords>>> = Lazy::new(|| {
     let data = indexmap! {
         "elixir" => read_keywords_file("elixir").unwrap(),
         "erlang" => read_keywords_file("erlang").unwrap(),
+        "python" => read_keywords_file("python").unwrap(),
         "rust" => read_keywords_file("rust").unwrap(),
     };
 
