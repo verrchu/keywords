@@ -1,15 +1,11 @@
-use std::collections::HashSet;
 use std::sync::Arc;
 
 use super::Error;
 use crate::DATA;
 
-use model::{keyword, Keyword, Keywords, Language};
+use model::{keyword, Keywords, Language};
 
-pub fn search<I, L>(
-    keyword: Keyword,
-    languages: Option<I>,
-) -> Result<Vec<keyword::Occurence>, Error>
+pub fn search<I, L>(keyword: &str, languages: Option<I>) -> Result<Vec<keyword::Occurence>, Error>
 where
     L: Into<Language>,
     I: IntoIterator<Item = L> + Clone,
@@ -30,33 +26,27 @@ where
             match keywords {
                 Keywords::Versioned(keywords) => {
                     for (version, keywords) in keywords.iter() {
-                        let keywords = keywords
-                            .iter()
-                            .map(AsRef::<Keyword>::as_ref)
-                            .collect::<HashSet<_>>();
+                        let keyword = keywords.iter().find(|item| item.as_ref() == keyword);
 
-                        if keywords.contains(&keyword) {
+                        if let Some(keyword) = keyword {
                             occurences.push(
                                 keyword::Occurence::builder()
                                     .language(language.to_owned())
                                     .since(version.to_owned())
-                                    .keyword(keyword.clone())
+                                    .keyword(keyword.to_owned())
                                     .build(),
                             );
                         }
                     }
                 }
                 Keywords::Flat(keywords) => {
-                    let keywords = keywords
-                        .iter()
-                        .map(AsRef::<Keyword>::as_ref)
-                        .collect::<HashSet<_>>();
+                    let keyword = keywords.iter().find(|item| item.as_ref() == keyword);
 
-                    if keywords.contains(&keyword) {
+                    if let Some(keyword) = keyword {
                         occurences.push(
                             keyword::Occurence::builder()
                                 .language(language.to_owned())
-                                .keyword(keyword.clone())
+                                .keyword(keyword.to_owned())
                                 .build(),
                         );
                     }

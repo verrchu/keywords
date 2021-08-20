@@ -31,8 +31,8 @@ where
 
     if !diff.is_empty() {
         Err(Error::UnsupportedLanguages {
-            unsupported: diff.into_iter().sorted().collect(),
-            supported: supported_languages.into_iter().sorted().collect(),
+            unsupported: diff.into_iter().sorted().into(),
+            supported: supported_languages.into_iter().sorted().into(),
         })
     } else {
         Ok(())

@@ -3,7 +3,7 @@ use clap::{App, AppSettings, Arg, ArgMatches};
 pub fn run() {
     let matches = App::new("keywords")
         .setting(AppSettings::ArgRequiredElseHelp)
-        .setting(AppSettings::GlobalVersion)
+        .setting(AppSettings::PropagateVersion)
         .subcommand(
             App::new("search")
                 .arg(
@@ -13,7 +13,7 @@ pub fn run() {
                         .required(false)
                         .takes_value(true),
                 )
-                .arg(Arg::new("word").required(true).takes_value(true)),
+                .arg(Arg::new("keyword").required(true).takes_value(true)),
         )
         .get_matches();
 
@@ -33,11 +33,9 @@ fn process(matches: ArgMatches) {
 
             log::debug!("languages supplied: {:?}", languages);
 
-            let word = matches.value_of("word").unwrap();
+            let keyword = matches.value_of("keyword").unwrap();
 
-            let occurences = data::api::keyword::search(word.into(), languages);
-
-            dbg!(occurences);
+            let occurences = data::api::keyword::search(keyword, languages);
         }
         _ => unreachable!(),
     }

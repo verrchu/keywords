@@ -1,34 +1,60 @@
-mod listed;
-pub use listed::ListedKeyword;
-
 mod occurence;
 pub use occurence::Occurence;
 
 mod annotation;
 pub use annotation::Annotation;
 
+use std::fmt::{self, Display};
+
 use crate::language;
 
 use indexmap::{IndexMap, IndexSet};
 use serde::Deserialize;
 
+#[derive(Debug, Clone, Deserialize)]
+pub enum Keywords {
+    Versioned(IndexMap<language::Version, IndexSet<Keyword>>),
+    Flat(IndexSet<Keyword>),
+}
+
 #[derive(Debug, Clone, Hash, PartialEq, Eq, Deserialize)]
-pub struct Keyword(String);
+pub enum Keyword {
+    Regular(String),
+    Annotated(String, Annotation),
+}
 
 impl AsRef<str> for Keyword {
     fn as_ref(&self) -> &str {
-        &self.0
+        match self {
+            Self::Regular(keyword) => keyword,
+            Self::Annotated(keyword, _annotation) => keyword,
+        }
     }
 }
 
-impl<S: ToString> From<S> for Keyword {
-    fn from(input: S) -> Self {
-        Self(input.to_string())
+impl Display for Keyword {
+    fn fmt(&self, f: &mut fmt::Formatter) -> fmt::Result {
+        match self {
+            Self::Regular(keyword) => write!(f, "{}", keyword),
+            Self::Annotated(keyword, annotation) => write!(f, "{} ({})", keyword, annotation),
+        }
     }
 }
 
-#[derive(Debug, Clone, Deserialize)]
-pub enum Keywords {
-    Versioned(IndexMap<language::Version, IndexSet<ListedKeyword>>),
-    Flat(IndexSet<ListedKeyword>),
+#[cfg(test)]
+mod tests {
+    use super::*;
+
+    #[test]
+    fn test_display() {
+        assert_eq!(
+            "test".to_string(),
+            Keyword::Regular("test".into()).to_string()
+        );
+
+        assert_eq!(
+            "test (unused)".to_string(),
+            Keyword::Annotated("test".into(), Annotation::Unused).to_string()
+        );
+    }
 }
