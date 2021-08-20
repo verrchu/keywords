@@ -1,5 +1,3 @@
-use std::process;
-
 use clap::{App, AppSettings, Arg, ArgMatches};
 
 pub fn run() {

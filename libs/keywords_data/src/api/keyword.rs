@@ -1,3 +1,4 @@
+use std::collections::HashSet;
 use std::sync::Arc;
 
 use super::Error;
@@ -29,6 +30,11 @@ where
             match keywords {
                 Keywords::Versioned(keywords) => {
                     for (version, keywords) in keywords.iter() {
+                        let keywords = keywords
+                            .iter()
+                            .map(AsRef::<Keyword>::as_ref)
+                            .collect::<HashSet<_>>();
+
                         if keywords.contains(&keyword) {
                             occurences.push(
                                 keyword::Occurence::builder()
@@ -41,6 +47,11 @@ where
                     }
                 }
                 Keywords::Flat(keywords) => {
+                    let keywords = keywords
+                        .iter()
+                        .map(AsRef::<Keyword>::as_ref)
+                        .collect::<HashSet<_>>();
+
                     if keywords.contains(&keyword) {
                         occurences.push(
                             keyword::Occurence::builder()

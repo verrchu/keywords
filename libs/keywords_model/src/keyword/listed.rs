@@ -1,5 +1,3 @@
-use std::borrow::Borrow;
-
 use serde::Deserialize;
 
 use crate::{keyword, Keyword};
@@ -19,8 +17,8 @@ impl AsRef<str> for ListedKeyword {
     }
 }
 
-impl Borrow<Keyword> for ListedKeyword {
-    fn borrow(&self) -> &Keyword {
+impl AsRef<Keyword> for ListedKeyword {
+    fn as_ref(&self) -> &Keyword {
         match self {
             Self::Regular(keyword) => keyword,
             Self::Annotated(keyword, _annotation) => keyword,
