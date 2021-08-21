@@ -34,11 +34,7 @@ fn process(matches: ArgMatches) {
             let keyword = matches.value_of("keyword").unwrap();
 
             match data::api::keyword::search(keyword, languages) {
-                Ok(occurences) => {
-                    for occurence in occurences.iter() {
-                        println!("{}", occurence);
-                    }
-                }
+                Ok(_) => println!("MATCH"),
                 Err(err) => println!("ERROR: {}", err),
             }
         }

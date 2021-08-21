@@ -3,9 +3,9 @@ use std::sync::Arc;
 use super::Error;
 use crate::DATA;
 
-use model::{keyword, Keywords, Language};
+use model::{Keywords, Language};
 
-pub fn search<I, L>(keyword: &str, languages: Option<I>) -> Result<Vec<keyword::Occurence>, Error>
+pub fn search<I, L>(keyword: &str, languages: Option<I>) -> Result<(), Error>
 where
     L: Into<Language>,
     I: IntoIterator<Item = L> + Clone,
@@ -20,7 +20,6 @@ where
     let languages = languages.map(|languages| languages.into_iter().map(Into::into).collect());
     let languages = languages.unwrap_or_else(super::language::list);
 
-    let mut occurences = vec![];
     for language in languages.iter() {
         if let Some(keywords) = data.get(language.as_ref()) {
             match keywords {
@@ -29,13 +28,7 @@ where
                         let keyword = keywords.iter().find(|item| item.as_ref() == keyword);
 
                         if let Some(keyword) = keyword {
-                            occurences.push(
-                                keyword::Occurence::builder()
-                                    .language(language.to_owned())
-                                    .since(version.to_owned())
-                                    .keyword(keyword.to_owned())
-                                    .build(),
-                            );
+                            println!("MATCH");
                         }
                     }
                 }
@@ -43,17 +36,12 @@ where
                     let keyword = keywords.iter().find(|item| item.as_ref() == keyword);
 
                     if let Some(keyword) = keyword {
-                        occurences.push(
-                            keyword::Occurence::builder()
-                                .language(language.to_owned())
-                                .keyword(keyword.to_owned())
-                                .build(),
-                        );
+                        println!("MATCH");
                     }
                 }
             }
         }
     }
 
-    Ok(occurences)
+    Ok(())
 }
