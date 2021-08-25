@@ -181,12 +181,17 @@ dependencies = [
  "eyre",
  "indexmap",
  "itertools",
+ "keywords_macros",
  "keywords_model",
  "once_cell",
  "ron",
  "serde",
  "thiserror",
 ]
+
+[[package]]
+name = "keywords_macros"
+version = "0.1.0"
 
 [[package]]
 name = "keywords_model"

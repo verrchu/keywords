@@ -2,24 +2,20 @@ pub mod api;
 mod error;
 pub use error::Error;
 
+use std::collections::HashMap;
 use std::fs::File;
 use std::io::BufReader;
 use std::path::Path;
 use std::sync::Arc;
 
+use macros::langs;
 use model::Keywords;
 
-use indexmap::{indexmap, IndexMap};
 use once_cell::sync::Lazy;
 use ron::de::from_reader;
 
-static DATA: Lazy<Arc<IndexMap<&str, Keywords>>> = Lazy::new(|| {
-    let data = indexmap! {
-        "elixir" => read_keywords_file("elixir").unwrap(),
-        "erlang" => read_keywords_file("erlang").unwrap(),
-        "python" => read_keywords_file("python").unwrap(),
-        "rust" => read_keywords_file("rust").unwrap(),
-    };
+static DATA: Lazy<Arc<HashMap<&str, Keywords>>> = Lazy::new(|| {
+    let data = langs!("elixir", "erlang", "python", "rust");
 
     Arc::new(data)
 });
