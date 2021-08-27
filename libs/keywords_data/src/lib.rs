@@ -15,7 +15,7 @@ use once_cell::sync::Lazy;
 use ron::de::from_reader;
 
 static DATA: Lazy<Arc<HashMap<&str, Keywords>>> = Lazy::new(|| {
-    let data = langs!("elixir", "erlang", "python", "rust");
+    let data = langs!("elixir", "erlang", "go", "java", "python", "ruby", "rust");
 
     Arc::new(data)
 });
